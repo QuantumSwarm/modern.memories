@@ -189,7 +189,8 @@ function SponsorCard({
       transition={{ delay: index * 0.2 }}
       onMouseEnter={() => onHover(sponsor.id)}
       onMouseLeave={() => onHover(null)}
-      onMouseMove={(e) => handleMouseMove(e, mouseX)}
+      onMouseMove={(e: React.MouseEvent<HTMLElement>) => handleMouseMove(e, mouseX)}
+
       whileHover={{ 
         scale: 1.05,
         transition: { type: 'spring', stiffness: 300 }
