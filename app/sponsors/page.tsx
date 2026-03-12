@@ -12,6 +12,7 @@ interface Sponsor {
   url: string
   description: string
   color: string
+  
 }
 
 interface SponsorCardProps {
