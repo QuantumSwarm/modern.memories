@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "title": "Urban Bloom",
+    "designer": "Emma Chen",
+    "description": "Sustainable streetwear meets high fashion.",
+    "image": "/images/collection1.jpg",
+    "video": "/videos/collection1.mp4",
+    "tags": ["Organic Cotton", "Zero-Waste"],
+    "featured": true
+  },
+  {
+    "id": "2",
+    "title": "Echoes of Earth",
+    "designer": "Javier Ruiz",
+    "description": "Earth tones and recycled textures.",
+    "image": "/images/collection2.jpg",
+    "video": "/videos/collection2.mp4",
+    "tags": ["Recycled Poly", "Low-Impact Dye"],
+    "featured": true
+  }
+]

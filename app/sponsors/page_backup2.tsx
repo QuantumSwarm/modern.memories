@@ -1,0 +1,243 @@
+'use client'
+
+import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { useState } from 'react'
+import Navbar from '@/components/sections/Navbar'
+import Image from 'next/image'
+
+export default function SponsorsPage() {
+  const [hoveredSponsor, setHoveredSponsor] = useState<string | null>(null)
+
+  // Parallax tilt effect for cards
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, mouseX: ReturnType<typeof useMotionValue>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    mouseX.set((x - centerX) / 20)
+  }
+
+  const sponsors = [
+    {
+      id: 'nudestix',
+      name: 'Nudestix',
+      logo: '/images/nudestix.avif',
+      url: 'https://nudestix.ca/',
+      description: 'Clean, effortless makeup for the modern individual.',
+      color: 'from-pink-500/30 to-rose-500/30',
+    },
+    {
+      id: 'quantum',
+      name: 'Quantum Swarm',
+      logo: '/images/quantum-swarm.png',
+      url: 'https://quantum-swarm.com/',
+      description: 'Innovative technology solutions for creative industries.',
+      color: 'from-cyan-500/30 to-blue-500/30',
+    },
+  ]
+
+  return (
+    <main className="min-h-screen relative overflow-hidden">
+      {/* ===== BACKGROUND ===== */}
+      
+      {/* Generated background image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ 
+          backgroundImage: 'url(/images/sponsors-bg.jpg)',
+        }}
+      />
+      
+      {/* Fallback gradient if image doesn't load */}
+      <div className="absolute inset-0 bg-gradient-to-br from-stone-950 via-stone-900 to-stone-950" />
+      
+      {/* Animated gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-900/20 via-transparent to-cyan-900/20 animate-pulse" />
+      
+      {/* Floating particles */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-white/20 rounded-full"
+          initial={{
+            x: Math.random() * 100 + '%',
+            y: Math.random() * 100 + '%',
+            opacity: 0,
+          }}
+          animate={{
+            y: [null, -20, 20, -20],
+            opacity: [0, 0.8, 0],
+          }}
+          transition={{
+            duration: Math.random() * 3 + 4,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+          }}
+        />
+      ))}
+
+      {/* ===== CONTENT ===== */}
+      <Navbar />
+      
+      <section className="pt-32 pb-20 px-4 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-20"
+          >
+            <h1 className="text-5xl md:text-7xl font-serif text-white mb-6 drop-shadow-lg">
+              SPONSORS
+            </h1>
+            <p className="text-stone-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+              A special thanks to our sponsors <span className="text-pink-400 font-medium">Quantum Swarm</span> and <span className="text-pink-400 font-medium">Nudestix</span> for their generous support of Humber's Fashion Arts and Business students. Your contributions helped make our fashion show, <span className="text-white font-medium">Unfiltered</span>, a success, and we are grateful for your partnership in supporting emerging talent in the fashion industry.
+            </p>
+          </motion.div>
+
+          {/* Sponsor Cards Grid */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {sponsors.map((sponsor, index) => (
+              <SponsorCard 
+                key={sponsor.id}
+                sponsor={sponsor}
+                index={index}
+                isHovered={hoveredSponsor === sponsor.id}
+                onHover={setHoveredSponsor}
+              />
+            ))}
+          </div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-20"
+          >
+            <a
+              href="/rsvp"
+              className="inline-block px-8 py-4 bg-pink-500/80 hover:bg-pink-400/80 text-white font-medium rounded-full transition-all hover:scale-105 backdrop-blur-sm border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]"
+            >
+              Support Future Shows →
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      <footer className="py-8 px-4 bg-stone-950/50 backdrop-blur-sm text-center text-stone-400 text-sm border-t border-stone-800 relative z-10">
+        <p>© 2026 Unfiltered Fashion Show • Humber College</p>
+      </footer>
+    </main>
+  )
+}
+
+// ===== Sponsor Card Component =====
+function SponsorCard({ 
+  sponsor, 
+  index, 
+  isHovered, 
+  onHover 
+}: { 
+  sponsor: any, 
+  index: number, 
+  isHovered: boolean, 
+  onHover: (id: string | null) => void 
+}) {
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const rotateX = useTransform(mouseY, [-100, 100], [5, -5])
+  const rotateY = useTransform(mouseX, [-100, 100], [-5, 5])
+
+  return (
+    <motion.a
+      href={sponsor.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.2 }}
+      onMouseEnter={() => onHover(sponsor.id)}
+      onMouseLeave={() => onHover(null)}
+      onMouseMove={(e) => handleMouseMove(e, mouseX)}
+      whileHover={{ 
+        scale: 1.03,
+        transition: { type: 'spring', stiffness: 300 }
+      }}
+      className="block group"
+    >
+      <motion.div
+        style={{ rotateX, rotateY }}
+        className={`relative p-8 rounded-3xl bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] overflow-hidden ${
+          isHovered ? 'ring-2 ring-pink-500/50' : ''
+        }`}
+      >
+        {/* Animated gradient border */}
+        <div className={`absolute inset-0 bg-gradient-to-r ${sponsor.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center text-center">
+          {/* Logo Container with Glow */}
+          <motion.div
+            animate={{ 
+              y: isHovered ? -5 : 0,
+              filter: isHovered ? 'drop-shadow(0 0 20px rgba(236,72,153,0.5))' : 'none'
+            }}
+            transition={{ type: 'spring', stiffness: 300 }}
+            className="w-48 h-32 mb-6 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10 overflow-hidden"
+          >
+            <Image
+              src={sponsor.logo}
+              alt={sponsor.name}
+              width={200}
+              height={100}
+              className="object-contain max-w-full max-h-full transition-transform duration-500 group-hover:scale-110"
+            />
+          </motion.div>
+
+          {/* Name */}
+          <h3 className="text-2xl font-serif text-white mb-3 group-hover:text-pink-400 transition-colors">
+            {sponsor.name}
+          </h3>
+
+          {/* Description */}
+          <p className="text-stone-400 text-sm leading-relaxed">
+            {sponsor.description}
+          </p>
+
+          {/* Visit Link */}
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
+            className="mt-4 text-pink-400 text-sm font-medium flex items-center gap-2"
+          >
+            Visit Website
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </motion.span>
+        </div>
+
+        {/* Pulse animation on border */}
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 rounded-3xl border-2 border-pink-500/50"
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 1.05, opacity: 0 }}
+          />
+        )}
+      </motion.div>
+    </motion.a>
+  )
+}
+
+// Helper function (needs to be outside component or imported)
+function handleMouseMove(e: React.MouseEvent<HTMLDivElement>, mouseX: ReturnType<typeof useMotionValue>) {
+  const rect = e.currentTarget.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  mouseX.set((x - rect.width / 2) / 20)
+}

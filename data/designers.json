@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "name": "Emma Chen",
+    "bio": "Fashion student focused on sustainable textiles.",
+    "image": "/images/emma.jpg",
+    "instagram": "emmachen_design"
+  },
+  {
+    "id": "2",
+    "name": "Javier Ruiz",
+    "bio": "Exploring the boundary between structure and flow.",
+    "image": "/images/javier.jpg",
+    "instagram": "javier_ruiz"
+  }
+]
