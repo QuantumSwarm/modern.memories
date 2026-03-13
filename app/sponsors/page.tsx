@@ -269,7 +269,8 @@ function SponsorCard({
   )
 }
 
-function handleMouseMove(e: React.MouseEvent<HTMLDivElement>, mouseX: ReturnType<typeof useMotionValue>) {
+// ✅ AFTER (accepts any HTMLElement)
+function handleMouseMove(e: React.MouseEvent<HTMLElement>, mouseX: ReturnType<typeof useMotionValue>) {
   const rect = e.currentTarget.getBoundingClientRect()
   const x = e.clientX - rect.left
   mouseX.set((x - rect.width / 2) / 20)
