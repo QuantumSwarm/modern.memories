@@ -283,7 +283,7 @@ function SponsorCard({
 function handleMouseMove(
   e: React.MouseEvent<HTMLElement>,
   mouseX: MotionValue<number>   // ← this is the key change march 13
-) {
+) { 
   const rect = e.currentTarget.getBoundingClientRect();
   const x = e.clientX - rect.left;
   mouseX.set((x - rect.width / 2) / 20);
