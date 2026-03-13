@@ -1,9 +1,10 @@
 'use client'
-
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+// test
+import { MotionValue, motion, useMotionValue, useTransform} from 'framer-motion'
 import { useState, useMemo, useEffect } from 'react'
 import Navbar from '@/components/sections/Navbar'
 import Image from 'next/image'
+
 
 interface Sponsor {
   id: string
@@ -12,6 +13,7 @@ interface Sponsor {
   url: string
   description: string
   color: string
+  
 }
 
 interface SponsorCardProps {
@@ -165,7 +167,10 @@ export default function SponsorsPage() {
     </main>
   )
 }
-
+// ===== Sponsor Card Component =====
+// ===== Sponsor Card Component =====
+// ===== Sponsor Card Component =====
+// ===== Sponsor Card Component =====
 // ===== Sponsor Card Component =====
 function SponsorCard({ 
   sponsor, 
@@ -189,7 +194,7 @@ function SponsorCard({
       transition={{ delay: index * 0.2 }}
       onMouseEnter={() => onHover(sponsor.id)}
       onMouseLeave={() => onHover(null)}
-      onMouseMove={(e) => handleMouseMove(e, mouseX)}
+      onMouseMove={(e: React.MouseEvent<HTMLElement>) => handleMouseMove(e, mouseX)}
       whileHover={{ 
         scale: 1.05,
         transition: { type: 'spring', stiffness: 300 }
@@ -265,8 +270,21 @@ function SponsorCard({
   )
 }
 
-function handleMouseMove(e: React.MouseEvent<HTMLDivElement>, mouseX: ReturnType<typeof useMotionValue>) {
-  const rect = e.currentTarget.getBoundingClientRect()
-  const x = e.clientX - rect.left
-  mouseX.set((x - rect.width / 2) / 20)
+// ✅ AFTER (accepts any HTMLElement)
+//function handleMouseMove(e: React.MouseEvent<HTMLElement>, mouseX: ReturnType<typeof useMotionValue>) {
+//  const rect = e.currentTarget.getBoundingClientRect()
+//  const x = e.clientX - rect.left
+//  mouseX.set((x - rect.width / 2) / 20)
+//}
+
+
+
+// Change this line:
+function handleMouseMove(
+  e: React.MouseEvent<HTMLElement>,
+  mouseX: MotionValue<number>   // ← this is the key change
+) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  mouseX.set((x - rect.width / 2) / 20);
 }
