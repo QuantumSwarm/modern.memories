@@ -54,7 +54,7 @@ const navLinks = [
             onClick={() => setIsMobileMenuOpen(false)}
             className="text-2xl font-serif font-bold text-stone-100 tracking-tight"
           >
-            UNFILTERED
+            MODERN MEMORIES
           </Link>
 
           {/* Desktop Links */}

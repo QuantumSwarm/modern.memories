@@ -47,8 +47,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-8xl font-serif text-white tracking-tight drop-shadow-lg"
         >
-          UNTAMED <br />
-          <span className="text-pink-400">ELEGANCE</span>
+          Modern Memories <br />
+          <span className="text-pink-400">The Indigo Edit</span>
         </motion.h1>
 
         <motion.p
